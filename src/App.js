@@ -1,10 +1,13 @@
+import 'normalize.css';
 import './App.css';
-import {Button} from "./componenten/Button";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Button from 'react-bootstrap/Button';
+
 
 function App() {
   return (
     <div className="App">
-      <Button></Button>
+
     </div>
   );
 }
