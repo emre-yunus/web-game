@@ -1,3 +1,8 @@
 .App {
   text-align: center;
 }
+
+.Panel {
+  border: solid 2px black;
+  margin: 20px;
+}

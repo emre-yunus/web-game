@@ -1,13 +1,13 @@
 import 'normalize.css';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Button from 'react-bootstrap/Button';
+import {Dashboard} from "./componenten/Dashboard";
 
 
 function App() {
   return (
     <div className="App">
-
+      <Dashboard/>
     </div>
   );
 }
