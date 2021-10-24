@@ -1,23 +1,27 @@
-import {ButtonPanelContent} from "./ButtonPanelContent";
+import {ProductionPanelContent} from "./ProductionPanelContent";
 import {StatisticsPanelContent} from "./StatisticsPanelContent";
 import {InfoPanelContent} from "./InfoPanelContent";
-import {AutomationUpgradesPanelContent} from "./AutomationUpgradesPanelContent";
-import {SpecialUpgradesPanelContent} from "./SpecialUpgradesPanelContent";
+import {UpgradesPanelContent} from "./UpgradesPanelContent";
+import {Card, CardHeader} from "@mui/material";
 
 export function Panel(props) {
     const {title} = props;
-    return <div className={"Panel"}>
-        <h5>{title}</h5>
+    return <Card className={"Panel"}>
+        <CardHeader
+            title={title}
+            sx={{
+                backgroundColor: "rgba(75,75,212,0.85)"
+            }}
+        />
         <PanelContent title={title}/>
-    </div>
+    </Card>
 }
 
 function PanelContent(props) {
     const {title} = props;
     if (title==="STATISTICS") return <StatisticsPanelContent/>
     if (title==="INFO") return <InfoPanelContent/>
-    if (title==="AUTOMATION UPGRADES") return <AutomationUpgradesPanelContent/>
-    if (title==="SPECIAL UPGRADES") return <SpecialUpgradesPanelContent/>
-    if (title==="PRODUCTION") return <ButtonPanelContent/>
+    if (title==="UPGRADES") return <UpgradesPanelContent/>
+    if (title==="PRODUCTION") return <ProductionPanelContent/>
     return <></>
 }

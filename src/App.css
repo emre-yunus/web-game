@@ -8,5 +8,28 @@
   border: solid 2px rgba(10, 44, 191, 0.83);
   border-radius: 7px;
   margin: 20px;
-  padding: 10px;
+}
+
+/*water bottle amount and money amount*/
+.statTitle {
+  color: grey;
+  font-size: 30px;
+}
+.statText {
+  font-size: 20px;
+}
+
+.box {
+  font-weight: 500;
+  border: 1px solid black;
+  border-radius: 5px;
+  padding: 7px;
+}
+
+.boxTitle {
+  color: grey;
+}
+
+.boxText {
+
 }

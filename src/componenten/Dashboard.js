@@ -8,23 +8,12 @@ export function Dashboard(props) {
             <Col sm={4}>
                 <Panel title={"STATISTICS"}/>
             </Col>
-            <Col sm={8}>
-                <Row>
-                    <Col>
-                        <Panel title={"INFO"}/>
-                    </Col>
-                    <Col>
-                        <Panel title={"AUTOMATION UPGRADES"}/>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col>
-                        <Panel title={"PRODUCTION"}/>
-                    </Col>
-                    <Col>
-                        <Panel title={"SPECIAL UPGRADES"}/>
-                    </Col>
-                </Row>
+            <Col sm={4}>
+                <Panel title={"INFO"}/>
+                <Panel title={"PRODUCTION"}/>
+            </Col>
+            <Col sm={4}>
+                <Panel title={"UPGRADES"}/>
             </Col>
         </Row>
     </Container>
