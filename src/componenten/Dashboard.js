@@ -1,27 +1,28 @@
 import {Panel} from "./Panel";
 import {Col, Container, Row} from "react-bootstrap";
+import Icon from '@mui/material/Icon';
 
 export function Dashboard(props) {
     return <Container fluid>
         <Row>
             <Col sm={4}>
-                <Panel content={"statistics"}/>
+                <Panel title={"STATISTICS"}/>
             </Col>
             <Col sm={8}>
                 <Row>
                     <Col>
-                        <Panel content={"news"}/>
+                        <Panel title={"INFO"}/>
                     </Col>
                     <Col>
-                        <Panel content={"simple upgrades"}/>
+                        <Panel title={"AUTOMATION UPGRADES"}/>
                     </Col>
                 </Row>
                 <Row>
                     <Col>
-                        <Panel content={"buttons"}/>
+                        <Panel title={"PRODUCTION"}/>
                     </Col>
                     <Col>
-                        <Panel content={"special upgrades"}/>
+                        <Panel title={"SPECIAL UPGRADES"}/>
                     </Col>
                 </Row>
             </Col>
