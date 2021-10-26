@@ -8,5 +8,6 @@ export function ProductionPanelContent(props) {
         <Tooltip title={"SELL (NUMBER) BOTTLES"} arrow>
             <Button variant={"contained"} color={"success"}>SELL BOTTLE</Button>
         </Tooltip>
+        {/*add buttons for hiring more workers and managers*/}
     </>
 }

@@ -10,6 +10,7 @@
   margin: 20px;
 }
 
+/*STATISTICS PANEL*/
 /*water bottle amount and money amount*/
 .statTitle {
   color: grey;
@@ -32,4 +33,11 @@
 
 .boxText {
 
+}
+
+/*UPGRADES PANEL*/
+.upgradeBox {
+  border: 1px solid black;
+  border-radius: 8px;
+  padding: 5px;
 }

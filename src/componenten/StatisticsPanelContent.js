@@ -26,5 +26,7 @@ export function StatisticsPanelContent(props) {
                 </Box>
             </Tooltip>
         </Stack>
+
+        {/*add buttons for stopping and resuming managers from hiring new workers*/}
     </>
 }

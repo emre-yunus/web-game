@@ -2,7 +2,7 @@ import {ProductionPanelContent} from "./ProductionPanelContent";
 import {StatisticsPanelContent} from "./StatisticsPanelContent";
 import {InfoPanelContent} from "./InfoPanelContent";
 import {UpgradesPanelContent} from "./UpgradesPanelContent";
-import {Card, CardHeader} from "@mui/material";
+import {Card, CardHeader, Tooltip} from "@mui/material";
 
 export function Panel(props) {
     const {title} = props;
