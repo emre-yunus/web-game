@@ -22,6 +22,6 @@ function PanelContent(props) {
     if (title==="STATISTICS") return <StatisticsPanelContent/>
     if (title==="INFO") return <InfoPanelContent/>
     if (title==="UPGRADES") return <UpgradesPanelContent/>
-    if (title==="PRODUCTION") return <ProductionPanelContent/>
+    if (title==="PRODUCTION / MANAGEMENT") return <ProductionPanelContent/>
     return <></>
 }

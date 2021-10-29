@@ -10,7 +10,7 @@ export function Dashboard(props) {
             </Col>
             <Col sm={4}>
                 <Panel title={"INFO"}/>
-                <Panel title={"PRODUCTION"}/>
+                <Panel title={"PRODUCTION / MANAGEMENT"}/>
             </Col>
             <Col sm={4}>
                 <Panel title={"UPGRADES"}/>
