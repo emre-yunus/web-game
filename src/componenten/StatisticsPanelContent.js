@@ -1,10 +1,10 @@
-import {Stack, Box, Tooltip} from "@mui/material";
+import {Stack, Box, Tooltip, Button} from "@mui/material";
 import React from "react";
 import {HtmlTooltip} from "./Tooltips";
 
 export function StatisticsPanelContent(props) {
     return <>
-        <Stack p={2} spacing={2} direction={"row"} justifyContent={"center"}>
+        <Stack mb={5} p={2} spacing={2} direction={"row"} justifyContent={"center"}>
             <Box>
                 <div className={"statTitle"}>WATER BOTTLES</div>
                 <div className={"statText"}>(number of bottles)</div>
@@ -14,6 +14,8 @@ export function StatisticsPanelContent(props) {
                 <div className={"statText"}>(amount of money)</div>
             </Box>
         </Stack>
+
+        <h4>EMPLOYEES</h4>
 
         <Stack p={2} spacing={2} direction={"row"} justifyContent={"center"}>
             <HtmlTooltip title={<>
@@ -27,24 +29,25 @@ export function StatisticsPanelContent(props) {
             </HtmlTooltip>
 
             <HtmlTooltip title={<>
-                <div>hires (production manager efficiency) workers every second</div>
-            </>
-            } followCursor>
-                <Box className={"box"}>
-                    <div className={"boxTitle"}>PRODUCTION MANAGERS</div>
-                    <div className={"boxText"}>(number of production managers)</div>
-                </Box>
-            </HtmlTooltip>
-        </Stack>
-
-        <Stack p={2} spacing={2} direction={"row"} justifyContent={"center"}>
-            <HtmlTooltip title={<>
                 <div>sells (saleperson efficiency) bottles every second</div>
             </>
             } followCursor>
                 <Box className={"box"}>
                     <div className={"boxTitle"}>SALESPEOPLE</div>
                     <div className={"boxText"}>(number of salespeople)</div>
+                </Box>
+            </HtmlTooltip>
+        </Stack>
+
+        <Stack p={2} spacing={2} direction={"row"} justifyContent={"center"}>
+            <HtmlTooltip title={<>
+                <div>hires (production manager efficiency) workers every second</div>
+            </>
+            } followCursor>
+                <Box className={"box"}>
+                    <div className={"boxTitle"}>PRODUCTION MANAGERS</div>
+                    <div className={"boxText"}>(number of production managers)</div>
+                    <Button variant="contained" size="small">STOP HIRING</Button>
                 </Box>
             </HtmlTooltip>
 
@@ -55,6 +58,7 @@ export function StatisticsPanelContent(props) {
                 <Box className={"box"}>
                     <div className={"boxTitle"}>SALES MANAGERS</div>
                     <div className={"boxText"}>(number of sales managers)</div>
+                    <Button color="success" variant="contained" size="small">STOP HIRING</Button>
                 </Box>
             </HtmlTooltip>
         </Stack>
