@@ -4,12 +4,12 @@ const WorkerContext = createContext();
 
 export function WorkerProvider(props) {
     const [workerAmount, setWorkerAmount] = useState(0);
-    console.log({workerAmount});
+    const [workerEfficiency, setWorkerEfficiency] = useState(1);
 
     const api = useMemo(() => ({
-        workerAmount, setWorkerAmount
+        workerAmount, setWorkerAmount, workerEfficiency, setWorkerEfficiency
     }), [
-        workerAmount, setWorkerAmount
+        workerAmount, setWorkerAmount, workerEfficiency, setWorkerEfficiency
     ]);
 
     return <WorkerContext.Provider value={api}>

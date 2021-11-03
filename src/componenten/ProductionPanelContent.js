@@ -3,10 +3,14 @@ import {HtmlTooltip} from "./Tooltips";
 import React from "react";
 import {useBottleContext} from "../context/bottleContext";
 import {useCapitalContext} from "../context/capitalContext";
+import {useWorkerContext} from "../context/workerContext";
+import {useSalesPersonContext} from "../context/salesPersonContext";
 
 export function ProductionPanelContent(props) {
     const {bottleAmount, setBottleAmount, productionEfficiency} = useBottleContext();
     const {capitalAmount, setCapitalAmount, salesEfficiency} = useCapitalContext();
+    const {workerAmount, setWorkerAmount, workerEfficiency} = useWorkerContext();
+    const {salesPersonAmount, setSalesPersonAmount, salesPersonEfficiency} = useSalesPersonContext();
 
     const changeBottleAmount = () => {
         setBottleAmount(bottleAmount + productionEfficiency);
@@ -17,6 +21,14 @@ export function ProductionPanelContent(props) {
             setCapitalAmount(capitalAmount + salesEfficiency);
             setBottleAmount(bottleAmount - salesEfficiency);
         }
+    }
+
+    const changeWorkerAmount = () => {
+        setWorkerAmount(workerAmount + 1);
+    }
+
+    const changeSalesPersonAmount = () => {
+        setSalesPersonAmount(salesPersonAmount + 1);
     }
 
     return <>
@@ -40,7 +52,7 @@ export function ProductionPanelContent(props) {
                 <HtmlTooltip title={<>
                     <div>hire (hireWorkerEfficiency) workers</div>
                 </>} followCursor>
-                    <Button variant={"contained"}>HIRE WORKER</Button>
+                    <Button onClick={changeWorkerAmount} variant={"contained"}>HIRE WORKER</Button>
                 </HtmlTooltip>
                 <HtmlTooltip title={<>
                     <div>hire (hireWorkerManagerEfficiency) production managers</div>
@@ -52,7 +64,7 @@ export function ProductionPanelContent(props) {
                 <HtmlTooltip title={<>
                     <div>hire (hireSalesPersonEfficiency) sales people</div>
                 </>} followCursor>
-                    <Button color="success" variant={"contained"}>HIRE SALESPERSON</Button>
+                    <Button onClick={changeSalesPersonAmount} color="success" variant={"contained"}>HIRE SALESPERSON</Button>
                 </HtmlTooltip>
                 <HtmlTooltip title={<>
                     <div>hire (hireSalesPersonManagerEfficiency) sales managers</div>

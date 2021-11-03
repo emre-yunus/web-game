@@ -5,6 +5,7 @@ import {Dashboard} from "./componenten/Dashboard";
 import {WorkerProvider} from "./context/workerContext";
 import {BottleProvider} from "./context/bottleContext";
 import {CapitalProvider} from "./context/capitalContext";
+import {SalesPersonProvider} from "./context/salesPersonContext";
 
 function ProvidedApp() {
     return <div className="App">
@@ -14,13 +15,15 @@ function ProvidedApp() {
 
 function App() {
   return (
-    <WorkerProvider>
       <BottleProvider>
           <CapitalProvider>
-              <ProvidedApp/>
+              <WorkerProvider>
+                  <SalesPersonProvider>
+                      <ProvidedApp/>
+                  </SalesPersonProvider>
+              </WorkerProvider>
           </CapitalProvider>
       </BottleProvider>
-  </WorkerProvider>
   )
 }
 

@@ -4,14 +4,16 @@ import {HtmlTooltip} from "./Tooltips";
 import {useWorkerContext} from "../context/workerContext";
 import {useBottleContext} from "../context/bottleContext";
 import {useCapitalContext} from "../context/capitalContext";
+import {useSalesPersonContext} from "../context/salesPersonContext";
 
 export function StatisticsPanelContent(props) {
     const {bottleAmount} = useBottleContext();
     const {capitalAmount} = useCapitalContext();
-    const {workerAmount} = useWorkerContext();
+    const {workerAmount, workerEfficiency} = useWorkerContext();
+    const {salesPersonAmount, salesPersonEfficiency} = useSalesPersonContext();
 
     return <>
-        <Stack mb={5} p={2} spacing={2} direction={"row"} justifyContent={"center"}>
+        <Stack mb={5} p={2} spacing={8} direction={"row"} justifyContent={"center"}>
             <Box>
                 <div className={"statTitle"}>WATER BOTTLES</div>
                 <div className={"statText"}>{bottleAmount}</div>
@@ -26,7 +28,7 @@ export function StatisticsPanelContent(props) {
 
         <Stack p={2} spacing={2} direction={"row"} justifyContent={"center"}>
             <HtmlTooltip title={<>
-                <div>produces (worker efficiency) bottles every second</div>
+                <div>produces {workerEfficiency} bottle(s) every second</div>
             </>
             } followCursor>
                 <Box className={"box"}>
@@ -36,15 +38,17 @@ export function StatisticsPanelContent(props) {
             </HtmlTooltip>
 
             <HtmlTooltip title={<>
-                <div>sells (saleperson efficiency) bottles every second</div>
+                <div>sells {salesPersonEfficiency} bottle(s) every second</div>
             </>
             } followCursor>
                 <Box className={"box"}>
                     <div className={"boxTitle"}>SALESPEOPLE</div>
-                    <div className={"boxText"}>(number of salespeople)</div>
+                    <div className={"boxText"}>{salesPersonAmount}</div>
                 </Box>
             </HtmlTooltip>
         </Stack>
+
+        {/*MANAGERS*/}
 
         <Stack p={2} spacing={2} direction={"row"} justifyContent={"center"}>
             <HtmlTooltip title={<>
