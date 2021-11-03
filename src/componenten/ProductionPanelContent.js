@@ -1,19 +1,35 @@
 import {Button, Stack, Tooltip} from "@mui/material";
 import {HtmlTooltip} from "./Tooltips";
 import React from "react";
+import {useBottleContext} from "../context/bottleContext";
+import {useCapitalContext} from "../context/capitalContext";
 
 export function ProductionPanelContent(props) {
+    const {bottleAmount, setBottleAmount, productionEfficiency} = useBottleContext();
+    const {capitalAmount, setCapitalAmount, salesEfficiency} = useCapitalContext();
+
+    const changeBottleAmount = () => {
+        setBottleAmount(bottleAmount + 1);
+    }
+
+    const changeCapitalAmount = () => {
+        if(bottleAmount > 0) {
+            setCapitalAmount(capitalAmount + 1);
+            setBottleAmount(bottleAmount - 1);
+        }
+    }
+
     return <>
         <Stack mb={5} mt={3} p={2} spacing={12} direction={"row"} justifyContent={"center"}>
             <HtmlTooltip title={<>
-                <div>PRODUCE (NUMBER) BOTTLES</div>
+                <div>PRODUCE {productionEfficiency} BOTTLES</div>
             </>} followCursor>
-                <Button variant={"contained"}>PRODUCE BOTTLE</Button>
+                <Button onClick={changeBottleAmount} variant={"contained"}>PRODUCE BOTTLE</Button>
             </HtmlTooltip>
             <HtmlTooltip title={<>
                 <div>SELL (NUMBER) BOTTLES</div>
             </>} followCursor>
-                <Button variant={"contained"} color={"success"}>SELL BOTTLE</Button>
+                <Button onClick={changeCapitalAmount} variant={"contained"} color={"success"}>SELL BOTTLE</Button>
             </HtmlTooltip>
         </Stack>
 

@@ -1,17 +1,24 @@
 import {Stack, Box, Tooltip, Button} from "@mui/material";
 import React from "react";
 import {HtmlTooltip} from "./Tooltips";
+import {useWorkerContext} from "../context/workerContext";
+import {useBottleContext} from "../context/bottleContext";
+import {useCapitalContext} from "../context/capitalContext";
 
 export function StatisticsPanelContent(props) {
+    const {bottleAmount} = useBottleContext();
+    const {capitalAmount} = useCapitalContext();
+    const {workerAmount} = useWorkerContext();
+
     return <>
         <Stack mb={5} p={2} spacing={2} direction={"row"} justifyContent={"center"}>
             <Box>
                 <div className={"statTitle"}>WATER BOTTLES</div>
-                <div className={"statText"}>(number of bottles)</div>
+                <div className={"statText"}>{bottleAmount}</div>
             </Box>
             <Box>
                 <div className={"statTitle"}>CAPITAL</div>
-                <div className={"statText"}>(amount of money)</div>
+                <div className={"statText"}>$ {capitalAmount}</div>
             </Box>
         </Stack>
 
@@ -24,7 +31,7 @@ export function StatisticsPanelContent(props) {
             } followCursor>
                 <Box className={"box"}>
                     <div className={"boxTitle"}>WORKERS</div>
-                    <div className={"boxText"}>(number of workers)</div>
+                    <div className={"boxText"}>{workerAmount}</div>
                 </Box>
             </HtmlTooltip>
 
