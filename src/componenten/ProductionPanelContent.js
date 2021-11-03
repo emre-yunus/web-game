@@ -9,13 +9,13 @@ export function ProductionPanelContent(props) {
     const {capitalAmount, setCapitalAmount, salesEfficiency} = useCapitalContext();
 
     const changeBottleAmount = () => {
-        setBottleAmount(bottleAmount + 1);
+        setBottleAmount(bottleAmount + productionEfficiency);
     }
 
     const changeCapitalAmount = () => {
-        if(bottleAmount > 0) {
-            setCapitalAmount(capitalAmount + 1);
-            setBottleAmount(bottleAmount - 1);
+        if(bottleAmount-salesEfficiency >= 0 ) {
+            setCapitalAmount(capitalAmount + salesEfficiency);
+            setBottleAmount(bottleAmount - salesEfficiency);
         }
     }
 
@@ -27,7 +27,7 @@ export function ProductionPanelContent(props) {
                 <Button onClick={changeBottleAmount} variant={"contained"}>PRODUCE BOTTLE</Button>
             </HtmlTooltip>
             <HtmlTooltip title={<>
-                <div>SELL (NUMBER) BOTTLES</div>
+                <div>SELL {salesEfficiency} BOTTLES</div>
             </>} followCursor>
                 <Button onClick={changeCapitalAmount} variant={"contained"} color={"success"}>SELL BOTTLE</Button>
             </HtmlTooltip>
