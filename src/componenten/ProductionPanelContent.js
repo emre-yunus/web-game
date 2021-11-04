@@ -7,7 +7,6 @@ import {useWorkerContext} from "../context/workerContext";
 import {useSalesPersonContext} from "../context/salesPersonContext";
 
 export function ProductionPanelContent(props) {
-    const [isRunning, setIsRunning] = useState(false);
     const [updater, setUpdater] = useState(false);
 
     const {bottleAmount, setBottleAmount, productionEfficiency} = useBottleContext();
