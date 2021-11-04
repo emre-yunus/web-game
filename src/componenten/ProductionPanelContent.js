@@ -1,32 +1,50 @@
 import {Button, Stack, Tooltip} from "@mui/material";
 import {HtmlTooltip} from "./Tooltips";
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import {useBottleContext} from "../context/bottleContext";
 import {useCapitalContext} from "../context/capitalContext";
 import {useWorkerContext} from "../context/workerContext";
 import {useSalesPersonContext} from "../context/salesPersonContext";
 
 export function ProductionPanelContent(props) {
+    const [isRunning, setIsRunning] = useState(false);
+    const [updater, setUpdater] = useState(false);
+
     const {bottleAmount, setBottleAmount, productionEfficiency} = useBottleContext();
     const {capitalAmount, setCapitalAmount, salesEfficiency} = useCapitalContext();
     const {workerAmount, setWorkerAmount, workerEfficiency} = useWorkerContext();
     const {salesPersonAmount, setSalesPersonAmount, salesPersonEfficiency} = useSalesPersonContext();
 
+    /**
+     * UseEffect contains setInterval --> this loops every 1000 milliseconds
+     */
     useEffect(() => {
-        console.log("smth");
-        setInterval(() => {
-            console.log("it just works")
-            setBottleAmount(bottleAmount + workerAmount);
+        const id = setInterval(() => {
+            console.log("start")
+            setBottleAmount(prevBottleAmount => prevBottleAmount + workerAmount);
+
+            /**
+             * This basically updates the useEffect, because state update is the only dependency.
+             * By using setUpdater the useEffect is independent from any other state. Without this
+             * we would have the following problem: when clicking on "hire worker" the useEffect would restart.
+             * With setUpdater we can keep clicking any other button while the states used in the useEffect are
+             * updated in real-time and the useEffect is not interrupted.
+             */
+            setUpdater(prevUpdater => !prevUpdater);
+
+            /*setTimeout(() => {
+                console.log("timeout 1")
+                setBottleAmount(prevBottleAmount => prevBottleAmount + workerAmount);
+                setUpdater(prevUpdater => !prevUpdater);
+            }, 500)*/
+            /*setTimeout(() => {
+                console.log("timeout 2")
+                setUpdater(prevUpdater => !prevUpdater);
+            }, 500)*/
+
         }, 1000);
-    });
-
-    /*const ticker = () => setInterval(() => {
-        //here come all functions that update the bottleAmount and capitalAmount
-
-        //setBottleAmount(prevBottleAmount => prevBottleAmount + workerAmount)
-        setBottleAmount(bottleAmount + workerAmount);
-    }, 5000);
-    clearInterval(ticker())*/
+        return () => window.clearInterval(id);
+    }, [updater]);
 
 
     //manually increase bottleAmount with "produce bottle" button
