@@ -21,6 +21,10 @@ export function ProductionPanelContent(props) {
         const id = setInterval(() => {
             console.log("start")
             setBottleAmount(prevBottleAmount => prevBottleAmount + workerAmount);
+            if(bottleAmount-salesPersonEfficiency >= 0 ) {
+                setBottleAmount(prevBottleAmount => prevBottleAmount - (salesPersonEfficiency * salesPersonAmount));
+                setCapitalAmount(prevCapitalAmount => prevCapitalAmount + (salesPersonEfficiency * salesPersonAmount));
+            }
 
             /**
              * This basically updates the useEffect, because state update is the only dependency.
@@ -64,6 +68,9 @@ export function ProductionPanelContent(props) {
         setWorkerAmount(prevWorkerAmount => prevWorkerAmount + 1);
     }
 
+    const changeSalesPersonAmount = () => {
+        setSalesPersonAmount(prevSalesPersonAmount => prevSalesPersonAmount + 1);
+    }
 
     /*
     const changeWorkerAmount = () => {
@@ -114,7 +121,7 @@ export function ProductionPanelContent(props) {
                 <HtmlTooltip title={<>
                     <div>hire (hireSalesPersonEfficiency) sales people</div>
                 </>} followCursor>
-                    <Button  color="success" variant={"contained"}>HIRE SALESPERSON</Button>
+                    <Button onClick={changeSalesPersonAmount} color="success" variant={"contained"}>HIRE SALESPERSON</Button>
                 </HtmlTooltip>
                 <HtmlTooltip title={<>
                     <div>hire (hireSalesPersonManagerEfficiency) sales managers</div>
