@@ -6,6 +6,8 @@ import {WorkerProvider} from "./context/workerContext";
 import {BottleProvider} from "./context/bottleContext";
 import {CapitalProvider} from "./context/capitalContext";
 import {SalesPersonProvider} from "./context/salesPersonContext";
+import {ProductionManagerProvider} from "./context/productionManagerContext";
+import {SalesManagerProvider} from "./context/salesManagerContext";
 
 function ProvidedApp() {
     return <div className="App">
@@ -19,7 +21,11 @@ function App() {
           <CapitalProvider>
               <WorkerProvider>
                   <SalesPersonProvider>
-                      <ProvidedApp/>
+                      <ProductionManagerProvider>
+                          <SalesManagerProvider>
+                            <ProvidedApp/>
+                          </SalesManagerProvider>
+                      </ProductionManagerProvider>
                   </SalesPersonProvider>
               </WorkerProvider>
           </CapitalProvider>

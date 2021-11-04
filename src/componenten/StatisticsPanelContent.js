@@ -1,16 +1,23 @@
 import {Stack, Box, Tooltip, Button} from "@mui/material";
-import React from "react";
+import React, {useState} from "react";
 import {HtmlTooltip} from "./Tooltips";
 import {useWorkerContext} from "../context/workerContext";
 import {useBottleContext} from "../context/bottleContext";
 import {useCapitalContext} from "../context/capitalContext";
 import {useSalesPersonContext} from "../context/salesPersonContext";
+import {useProductionManagerContext} from "../context/productionManagerContext";
+import {useSalesManagerContext} from "../context/salesManagerContext";
 
 export function StatisticsPanelContent(props) {
+    const [productionManagerHiring, setProductionManagerHiring] = useState(false);
+    const [salesManagerHiring, setSalesManagerHiring] = useState(false);
+
     const {bottleAmount} = useBottleContext();
     const {capitalAmount} = useCapitalContext();
     const {workerAmount, workerEfficiency} = useWorkerContext();
     const {salesPersonAmount, salesPersonEfficiency} = useSalesPersonContext();
+    const {productionManagerAmount, setProductionManagerAmount, productionManagerEfficiency} = useProductionManagerContext();
+    const {salesManagerAmount, setSalesManagerAmount, salesManagerEfficiency} = useSalesManagerContext();
 
     return <>
         <Stack mb={5} p={2} spacing={8} direction={"row"} justifyContent={"center"}>
@@ -52,23 +59,23 @@ export function StatisticsPanelContent(props) {
 
         <Stack p={2} spacing={2} direction={"row"} justifyContent={"center"}>
             <HtmlTooltip title={<>
-                <div>hires (production manager efficiency) workers every second</div>
+                <div>hires {productionManagerEfficiency} worker(s) every second</div>
             </>
             } followCursor>
                 <Box className={"box"}>
                     <div className={"boxTitle"}>PRODUCTION MANAGERS</div>
-                    <div className={"boxText"}>(number of production managers)</div>
+                    <div className={"boxText"}>{productionManagerAmount}</div>
                     <Button variant="contained" size="small">STOP HIRING</Button>
                 </Box>
             </HtmlTooltip>
 
             <HtmlTooltip title={<>
-                <div>hires (sales manager efficiency) salespeople every second</div>
+                <div>hires {salesManagerEfficiency} salesperson/salespeople every second</div>
             </>
             } followCursor>
                 <Box className={"box"}>
                     <div className={"boxTitle"}>SALES MANAGERS</div>
-                    <div className={"boxText"}>(number of sales managers)</div>
+                    <div className={"boxText"}>{salesManagerAmount}</div>
                     <Button color="success" variant="contained" size="small">STOP HIRING</Button>
                 </Box>
             </HtmlTooltip>

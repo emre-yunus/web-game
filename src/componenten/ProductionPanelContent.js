@@ -5,6 +5,8 @@ import {useBottleContext} from "../context/bottleContext";
 import {useCapitalContext} from "../context/capitalContext";
 import {useWorkerContext} from "../context/workerContext";
 import {useSalesPersonContext} from "../context/salesPersonContext";
+import {useProductionManagerContext} from "../context/productionManagerContext";
+import {useSalesManagerContext} from "../context/salesManagerContext";
 
 export function ProductionPanelContent(props) {
     const [updater, setUpdater] = useState(false);
@@ -13,18 +15,22 @@ export function ProductionPanelContent(props) {
     const {capitalAmount, setCapitalAmount, salesEfficiency} = useCapitalContext();
     const {workerAmount, setWorkerAmount, workerEfficiency} = useWorkerContext();
     const {salesPersonAmount, setSalesPersonAmount, salesPersonEfficiency} = useSalesPersonContext();
+    const {productionManagerAmount, setProductionManagerAmount, productionManagerEfficiency} = useProductionManagerContext();
+    const {salesManagerAmount, setSalesManagerAmount, salesManagerEfficiency} = useSalesManagerContext();
 
     /**
      * UseEffect contains setInterval --> this loops every 1000 milliseconds
      */
     useEffect(() => {
         const id = setInterval(() => {
-            console.log("start")
+            console.log("useEffect of ProductionPanelContent.js just ran")
             setBottleAmount(prevBottleAmount => prevBottleAmount + workerAmount);
-            if(bottleAmount-salesPersonEfficiency >= 0 ) {
+            if(bottleAmount-(salesPersonEfficiency*salesPersonAmount) >= 0 ) {
                 setBottleAmount(prevBottleAmount => prevBottleAmount - (salesPersonEfficiency * salesPersonAmount));
                 setCapitalAmount(prevCapitalAmount => prevCapitalAmount + (salesPersonEfficiency * salesPersonAmount));
             }
+            setWorkerAmount(prevWorkerAmount => prevWorkerAmount + (productionManagerAmount * productionManagerEfficiency));
+            setSalesPersonAmount(prevSalesPersonAmount => prevSalesPersonAmount + (salesManagerAmount * salesManagerEfficiency));
 
             /**
              * This basically updates the useEffect, because state update is the only dependency.
@@ -68,25 +74,18 @@ export function ProductionPanelContent(props) {
         setWorkerAmount(prevWorkerAmount => prevWorkerAmount + 1);
     }
 
+    //manually increase salesPersonAmount with "hire salesperson" button
     const changeSalesPersonAmount = () => {
         setSalesPersonAmount(prevSalesPersonAmount => prevSalesPersonAmount + 1);
     }
 
-    /*
-    const changeWorkerAmount = () => {
-        setWorkerAmount(workerAmount + 1);
-        setInterval(() => {
-            setBottleAmount(prevBottleAmount => prevBottleAmount + 1);
-        }, 5000);
+    const changeProductionManagerAmount = () => {
+        setProductionManagerAmount(prevProductionManagerAmount => prevProductionManagerAmount + 1)
     }
 
-    const changeSalesPersonAmount = () => {
-        setSalesPersonAmount(salesPersonAmount + 1);
-        setInterval(() => {
-            setBottleAmount(prevBottleAmount => prevBottleAmount - 1);
-            setCapitalAmount(prevCapitalAmount => prevCapitalAmount + 1);
-        }, 5000);
-    }*/
+    const changeSalesManagerAmount = () => {
+        setSalesManagerAmount(prevSalesManagerAmount => prevSalesManagerAmount + 1)
+    }
 
     return <>
         <Stack mb={5} mt={3} p={2} spacing={12} direction={"row"} justifyContent={"center"}>
@@ -107,26 +106,26 @@ export function ProductionPanelContent(props) {
         <Stack p={2} spacing={5} direction={"row"} justifyContent={"center"}>
             <Stack spacing={3} direction={"column"} justifyContent={"center"}>
                 <HtmlTooltip title={<>
-                    <div>hire (hireWorkerEfficiency) workers</div>
+                    <div>hire a worker</div>
                 </>} followCursor>
                     <Button onClick={changeWorkerAmount} variant={"contained"}>HIRE WORKER</Button>
                 </HtmlTooltip>
                 <HtmlTooltip title={<>
-                    <div>hire (hireWorkerManagerEfficiency) production managers</div>
+                    <div>hire a production manager</div>
                 </>} followCursor>
-                    <Button variant={"contained"}>HIRE PRODUCTION MANAGER</Button>
+                    <Button onClick={changeProductionManagerAmount} variant={"contained"}>HIRE PRODUCTION MANAGER</Button>
                 </HtmlTooltip>
             </Stack>
             <Stack spacing={3} direction={"column"} justifyContent={"center"}>
                 <HtmlTooltip title={<>
-                    <div>hire (hireSalesPersonEfficiency) sales people</div>
+                    <div>hire a salesperson</div>
                 </>} followCursor>
                     <Button onClick={changeSalesPersonAmount} color="success" variant={"contained"}>HIRE SALESPERSON</Button>
                 </HtmlTooltip>
                 <HtmlTooltip title={<>
-                    <div>hire (hireSalesPersonManagerEfficiency) sales managers</div>
+                    <div>hire a sales manager</div>
                 </>} followCursor>
-                    <Button color="success" variant={"contained"}>HIRE SALES MANAGER</Button>
+                    <Button onClick={changeSalesManagerAmount} color="success" variant={"contained"}>HIRE SALES MANAGER</Button>
                 </HtmlTooltip>
             </Stack>
         </Stack>
