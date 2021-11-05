@@ -8,7 +8,7 @@ export function SalesPersonProvider(props) {
         return savedSalesPersonAmount || 0;
     });
     const [salesPersonEfficiency, setSalesPersonEfficiency] = useState(() => {
-        const savedSalesPersonEfficiency = JSON.parse(localStorage.getItem("salesPersonAmount"));
+        const savedSalesPersonEfficiency = JSON.parse(localStorage.getItem("salesPersonEfficiency"));
         return savedSalesPersonEfficiency ||1;
     });
 
