@@ -1,10 +1,19 @@
-import React, {createContext, useContext, useMemo, useState} from "react";
+import React, {createContext, useContext, useEffect, useMemo, useState} from "react";
 
 const WorkerContext = createContext();
 
 export function WorkerProvider(props) {
-    const [workerAmount, setWorkerAmount] = useState(0);
-    const [workerEfficiency, setWorkerEfficiency] = useState(1);
+    const [workerAmount, setWorkerAmount] = useState(() => {
+        const savedWorkerAmount = JSON.parse(localStorage.getItem("workerAmount"));
+        return savedWorkerAmount || 0;
+    });
+    const [workerEfficiency, setWorkerEfficiency] = useState(() => {
+        const savedWorkerEfficiency = JSON.parse(localStorage.getItem("workerEfficiency"));
+        return savedWorkerEfficiency || 1 ;
+    });
+
+    useEffect(() => localStorage.setItem("workerAmount", JSON.stringify(workerAmount)), [workerAmount]);
+    useEffect(() => localStorage.setItem("workerEfficiency", JSON.stringify(workerEfficiency)), [workerEfficiency]);
 
     const api = useMemo(() => ({
         workerAmount, setWorkerAmount, workerEfficiency, setWorkerEfficiency
