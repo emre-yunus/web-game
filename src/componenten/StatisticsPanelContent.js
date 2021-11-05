@@ -7,10 +7,9 @@ import {useCapitalContext} from "../context/capitalContext";
 import {useSalesPersonContext} from "../context/salesPersonContext";
 import {useProductionManagerContext} from "../context/productionManagerContext";
 import {useSalesManagerContext} from "../context/salesManagerContext";
+import {useManagerHiringContext} from "../context/managerHiringContext";
 
 export function StatisticsPanelContent(props) {
-    const [productionManagerHiring, setProductionManagerHiring] = useState(false);
-    const [salesManagerHiring, setSalesManagerHiring] = useState(false);
 
     const {bottleAmount} = useBottleContext();
     const {capitalAmount} = useCapitalContext();
@@ -18,6 +17,16 @@ export function StatisticsPanelContent(props) {
     const {salesPersonAmount, salesPersonEfficiency} = useSalesPersonContext();
     const {productionManagerAmount, setProductionManagerAmount, productionManagerEfficiency} = useProductionManagerContext();
     const {salesManagerAmount, setSalesManagerAmount, salesManagerEfficiency} = useSalesManagerContext();
+    const {productionManagerHiring, setProductionManagerHiring} = useManagerHiringContext();
+    const {salesManagerHiring, setSalesManagerHiring} = useManagerHiringContext();
+
+    const changeProductionManagerHiring = () => {
+        setProductionManagerHiring(!productionManagerHiring);
+    }
+
+    const changeSalesManagerHiring = () => {
+        setSalesManagerHiring(!salesManagerHiring);
+    }
 
     return <>
         <Stack mb={5} p={2} spacing={8} direction={"row"} justifyContent={"center"}>
@@ -65,7 +74,7 @@ export function StatisticsPanelContent(props) {
                 <Box className={"box"}>
                     <div className={"boxTitle"}>PRODUCTION MANAGERS</div>
                     <div className={"boxText"}>{productionManagerAmount}</div>
-                    <Button variant="contained" size="small">STOP HIRING</Button>
+                    <Button onClick={changeProductionManagerHiring} variant="contained" size="small">{productionManagerHiring ? "STOP HIRING" : "START HIRING" }</Button>
                 </Box>
             </HtmlTooltip>
 
@@ -76,7 +85,7 @@ export function StatisticsPanelContent(props) {
                 <Box className={"box"}>
                     <div className={"boxTitle"}>SALES MANAGERS</div>
                     <div className={"boxText"}>{salesManagerAmount}</div>
-                    <Button color="success" variant="contained" size="small">STOP HIRING</Button>
+                    <Button onClick={changeSalesManagerHiring} color="success" variant="contained" size="small">{salesManagerHiring ? "STOP HIRING" : "START HIRING" }</Button>
                 </Box>
             </HtmlTooltip>
         </Stack>

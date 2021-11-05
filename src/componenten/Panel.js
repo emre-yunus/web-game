@@ -3,9 +3,11 @@ import {StatisticsPanelContent} from "./StatisticsPanelContent";
 import {InfoPanelContent} from "./InfoPanelContent";
 import {UpgradesPanelContent} from "./UpgradesPanelContent";
 import {Card, CardHeader, Tooltip} from "@mui/material";
+import {useState} from "react";
 
 export function Panel(props) {
     const {title} = props;
+
     return <Card className={"Panel"}>
         <CardHeader
             title={title}
@@ -19,9 +21,10 @@ export function Panel(props) {
 
 function PanelContent(props) {
     const {title} = props;
-    if (title==="STATISTICS") return <StatisticsPanelContent/>
+
+    if (title==="STATISTICS") return <StatisticsPanelContent />
     if (title==="INFO") return <InfoPanelContent/>
     if (title==="UPGRADES") return <UpgradesPanelContent/>
-    if (title==="PRODUCTION / MANAGEMENT") return <ProductionPanelContent/>
+    if (title==="PRODUCTION / MANAGEMENT") return <ProductionPanelContent />
     return <></>
 }

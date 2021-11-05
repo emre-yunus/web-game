@@ -7,16 +7,21 @@ import {useWorkerContext} from "../context/workerContext";
 import {useSalesPersonContext} from "../context/salesPersonContext";
 import {useProductionManagerContext} from "../context/productionManagerContext";
 import {useSalesManagerContext} from "../context/salesManagerContext";
+import {useManagerHiringContext} from "../context/managerHiringContext";
 
 export function ProductionPanelContent(props) {
+    //states belonging to this component
     const [updater, setUpdater] = useState(false);
 
+    //states from context components
     const {bottleAmount, setBottleAmount, productionEfficiency} = useBottleContext();
     const {capitalAmount, setCapitalAmount, salesEfficiency} = useCapitalContext();
     const {workerAmount, setWorkerAmount, workerEfficiency} = useWorkerContext();
     const {salesPersonAmount, setSalesPersonAmount, salesPersonEfficiency} = useSalesPersonContext();
     const {productionManagerAmount, setProductionManagerAmount, productionManagerEfficiency} = useProductionManagerContext();
     const {salesManagerAmount, setSalesManagerAmount, salesManagerEfficiency} = useSalesManagerContext();
+    const {productionManagerHiring, setProductionManagerHiring} = useManagerHiringContext();
+    const {salesManagerHiring, setSalesManagerHiring} = useManagerHiringContext();
 
     /**
      * UseEffect contains setInterval --> this loops every 1000 milliseconds
@@ -29,8 +34,8 @@ export function ProductionPanelContent(props) {
                 setBottleAmount(prevBottleAmount => prevBottleAmount - (salesPersonEfficiency * salesPersonAmount));
                 setCapitalAmount(prevCapitalAmount => prevCapitalAmount + (salesPersonEfficiency * salesPersonAmount));
             }
-            setWorkerAmount(prevWorkerAmount => prevWorkerAmount + (productionManagerAmount * productionManagerEfficiency));
-            setSalesPersonAmount(prevSalesPersonAmount => prevSalesPersonAmount + (salesManagerAmount * salesManagerEfficiency));
+            if(productionManagerHiring) setWorkerAmount(prevWorkerAmount => prevWorkerAmount + (productionManagerAmount * productionManagerEfficiency));
+            if(salesManagerHiring) setSalesPersonAmount(prevSalesPersonAmount => prevSalesPersonAmount + (salesManagerAmount * salesManagerEfficiency));
 
             /**
              * This basically updates the useEffect, because state update is the only dependency.
