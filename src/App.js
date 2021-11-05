@@ -9,9 +9,12 @@ import {SalesPersonProvider} from "./context/salesPersonContext";
 import {ProductionManagerProvider} from "./context/productionManagerContext";
 import {SalesManagerProvider} from "./context/salesManagerContext";
 import {ManagerHiringProvider} from "./context/managerHiringContext";
+import {LeaderBoardAccordion} from "./componenten/LeaderBoardAccordion";
+import {Stack} from "@mui/material";
 
 function ProvidedApp() {
     return <div className="App">
+        <LeaderBoardAccordion/>
         <Dashboard/>
     </div>
 }
@@ -25,7 +28,7 @@ function App() {
                       <ProductionManagerProvider>
                           <SalesManagerProvider>
                               <ManagerHiringProvider>
-                                <ProvidedApp/>
+                                  <ProvidedApp/>
                               </ManagerHiringProvider>
                           </SalesManagerProvider>
                       </ProductionManagerProvider>

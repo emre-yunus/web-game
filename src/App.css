@@ -1,7 +1,12 @@
+div.app {
+  background-color: cornsilk;
+}
+
 .App {
   text-align: center;
   font-family: Roboto;
   background-color: lavender;
+  height: 100%;
 }
 
 .Panel {
