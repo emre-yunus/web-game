@@ -18,10 +18,10 @@ export function UpgradesPanelContent(props) {
     const {salesManagerEfficiency, salesManagerActive, setSalesManagerActive} = useSalesManagerContext();
     const {errorMessages, setErrorMessages} = useInfoContext();
 
-    const WORKER_UPGRADE_COST = 50;
-    const SALESPERSON_UPGRADE_COST = 50;
-    const PRODUCTION_MANAGER_UPGRADE_COST = 500;
-    const SALES_MANAGER_UPGRADE_COST = 500;
+    const WORKER_UPGRADE_COST = 20;
+    const SALESPERSON_UPGRADE_COST = 20;
+    const PRODUCTION_MANAGER_UPGRADE_COST = 50;
+    const SALES_MANAGER_UPGRADE_COST = 50;
 
     const buyWorkerUpgrade = () => {
         if(capitalAmount >= WORKER_UPGRADE_COST) {

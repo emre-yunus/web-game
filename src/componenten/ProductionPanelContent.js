@@ -16,7 +16,7 @@ export function ProductionPanelContent(props) {
 
     //states from context components
     const {bottleAmount, setBottleAmount, productionEfficiency} = useBottleContext();
-    const {capitalAmount, setCapitalAmount, salesEfficiency} = useCapitalContext();
+    const {capitalAmount, setCapitalAmount, salesEfficiency, setSpentCapitalAmount} = useCapitalContext();
     const {workerAmount, setWorkerAmount, workerEfficiency, workerActive} = useWorkerContext();
     const {salesPersonAmount, setSalesPersonAmount, salesPersonEfficiency, salesPersonActive} = useSalesPersonContext();
     const {productionManagerAmount, setProductionManagerAmount, productionManagerEfficiency, productionManagerActive} = useProductionManagerContext();
@@ -24,6 +24,11 @@ export function ProductionPanelContent(props) {
     const {productionManagerHiring, setProductionManagerHiring} = useManagerHiringContext();
     const {salesManagerHiring, setSalesManagerHiring} = useManagerHiringContext();
     const {errorMessages, setErrorMessages} = useInfoContext();
+
+    const WORKER_COST = 10;
+    const SALES_PERSON_COST = 10;
+    const PRODUCTION_MANAGER_COST = 30;
+    const SALES_MANAGER_COST = 30;
 
     /**
      * UseEffect contains setInterval --> this loops every 1000 milliseconds
@@ -36,8 +41,26 @@ export function ProductionPanelContent(props) {
                 setBottleAmount(prevBottleAmount => prevBottleAmount - (salesPersonEfficiency * salesPersonAmount));
                 setCapitalAmount(prevCapitalAmount => prevCapitalAmount + (salesPersonEfficiency * salesPersonAmount));
             }
-            if(productionManagerHiring) setWorkerAmount(prevWorkerAmount => prevWorkerAmount + (productionManagerAmount * productionManagerEfficiency));
-            if(salesManagerHiring) setSalesPersonAmount(prevSalesPersonAmount => prevSalesPersonAmount + (salesManagerAmount * salesManagerEfficiency));
+            if(productionManagerHiring) {
+                if(capitalAmount >= WORKER_COST) {
+                    setWorkerAmount(prevWorkerAmount => prevWorkerAmount + (productionManagerAmount * productionManagerEfficiency));
+                    setCapitalAmount(prevAmount => prevAmount - WORKER_COST);
+                    setSpentCapitalAmount(prevAmount => prevAmount + WORKER_COST);
+                } else {
+                    setErrorMessages(currentArray => currentArray.concat("Production manager can't hire workers - Insufficient CAPITAL!"));
+                    setProductionManagerHiring(false);
+                }
+            }
+            if(salesManagerHiring) {
+                if(capitalAmount >= SALES_PERSON_COST) {
+                    setSalesPersonAmount(prevSalesPersonAmount => prevSalesPersonAmount + (salesManagerAmount * salesManagerEfficiency));
+                    setCapitalAmount(prevAmount => prevAmount - SALES_PERSON_COST);
+                    setSpentCapitalAmount(prevAmount => prevAmount + SALES_PERSON_COST);
+                } else {
+                    setErrorMessages(currentArray => currentArray.concat("Sales manager can't hire salespeople - Insufficient CAPITAL!"));
+                    setSalesManagerHiring(false);
+                }
+            }
 
             /**
              * This basically updates the useEffect, because state update is the only dependency.
@@ -73,33 +96,53 @@ export function ProductionPanelContent(props) {
         if(bottleAmount-salesEfficiency >= 0 ) {
             setBottleAmount(prevBottleAmount => prevBottleAmount - salesEfficiency);
             setCapitalAmount(prevCapitalAmount => prevCapitalAmount + salesEfficiency);
+        } else {
+            setErrorMessages(currentArray => currentArray.concat("Not enough BOTTLES!"));
         }
     }
 
+    // EMPLOYEES SECTION
     //manually increase workerAmount with "hire worker" button
     const changeWorkerAmount = () => {
         if(workerActive) {
-            setWorkerAmount(prevWorkerAmount => prevWorkerAmount + 1)
+            if(capitalAmount >= WORKER_COST) {
+                setWorkerAmount(prevWorkerAmount => prevWorkerAmount + 1)
+                setCapitalAmount(prevAmount => prevAmount - WORKER_COST);
+                setSpentCapitalAmount(prevAmount => prevAmount + WORKER_COST);
+            } else {
+                setErrorMessages(currentArray => currentArray.concat("Insufficient CAPITAL!"));
+            }
         } else {
             setErrorMessages(currentArray => currentArray.concat("workers unavailable, buy WORKER upgrade first!"));
             console.log(errorMessages);
-        };
+        }
     }
 
     //manually increase salesPersonAmount with "hire salesperson" button
     const changeSalesPersonAmount = () => {
         if(salesPersonActive) {
-            setSalesPersonAmount(prevSalesPersonAmount => prevSalesPersonAmount + 1);
+            if(capitalAmount >= SALES_PERSON_COST) {
+                setSalesPersonAmount(prevSalesPersonAmount => prevSalesPersonAmount + 1);
+                setCapitalAmount(prevAmount => prevAmount - SALES_PERSON_COST);
+                setSpentCapitalAmount(prevAmount => prevAmount + SALES_PERSON_COST);
+            } else {
+                setErrorMessages(currentArray => currentArray.concat("Insufficient CAPITAL!"));
+            }
         } else {
             setErrorMessages(currentArray => currentArray.concat("salespeople unavailable, buy SALESPERSON upgrade first!"));
         }
-
     }
 
     //manually increase productionManagerAmount
     const changeProductionManagerAmount = () => {
         if(productionManagerActive) {
-            setProductionManagerAmount(prevProductionManagerAmount => prevProductionManagerAmount + 1)
+            if(capitalAmount >= PRODUCTION_MANAGER_COST) {
+                setProductionManagerAmount(prevProductionManagerAmount => prevProductionManagerAmount + 1)
+                setCapitalAmount(prevAmount => prevAmount - PRODUCTION_MANAGER_COST);
+                setSpentCapitalAmount(prevAmount => prevAmount + PRODUCTION_MANAGER_COST);
+            } else {
+                setErrorMessages(currentArray => currentArray.concat("Insufficient CAPITAL!"));
+            }
         } else {
             setErrorMessages(currentArray => currentArray.concat("You haven't bought the PRODUCTION MANAGER upgrade yet!"));
         }
@@ -108,7 +151,13 @@ export function ProductionPanelContent(props) {
     //manually increase salesManagerAmount
     const changeSalesManagerAmount = () => {
         if(salesManagerActive) {
-            setSalesManagerAmount(prevSalesManagerAmount => prevSalesManagerAmount + 1)
+            if(capitalAmount >= SALES_MANAGER_COST) {
+                setSalesManagerAmount(prevSalesManagerAmount => prevSalesManagerAmount + 1)
+                setCapitalAmount(prevAmount => prevAmount - SALES_MANAGER_COST);
+                setSpentCapitalAmount(prevAmount => prevAmount + SALES_MANAGER_COST);
+            } else {
+                setErrorMessages(currentArray => currentArray.concat("Insufficient CAPITAL!"));
+            }
         } else {
             setErrorMessages(currentArray => currentArray.concat("You haven't bought the SALES MANAGER upgrade yet!"))
         }
@@ -133,11 +182,13 @@ export function ProductionPanelContent(props) {
         <Stack p={2} spacing={5} direction={"row"} justifyContent={"center"}>
             <Stack spacing={3} direction={"column"} justifyContent={"center"}>
                 <HtmlTooltip title={<>
+                    <h5>COST: ${WORKER_COST}</h5>
                     <div>hire a worker</div>
                 </>} followCursor>
                     <Button onClick={changeWorkerAmount} variant={"contained"}>HIRE WORKER</Button>
                 </HtmlTooltip>
                 <HtmlTooltip title={<>
+                    <h5>COST: ${PRODUCTION_MANAGER_COST}</h5>
                     <div>hire a production manager</div>
                 </>} followCursor>
                     <Button onClick={changeProductionManagerAmount} variant={"contained"}>HIRE PRODUCTION MANAGER</Button>
@@ -145,11 +196,13 @@ export function ProductionPanelContent(props) {
             </Stack>
             <Stack spacing={3} direction={"column"} justifyContent={"center"}>
                 <HtmlTooltip title={<>
+                    <h5>COST: ${SALES_PERSON_COST}</h5>
                     <div>hire a salesperson</div>
                 </>} followCursor>
                     <Button onClick={changeSalesPersonAmount} color="success" variant={"contained"}>HIRE SALESPERSON</Button>
                 </HtmlTooltip>
                 <HtmlTooltip title={<>
+                    <h5>COST: ${SALES_MANAGER_COST}</h5>
                     <div>hire a sales manager</div>
                 </>} followCursor>
                     <Button onClick={changeSalesManagerAmount} color="success" variant={"contained"}>HIRE SALES MANAGER</Button>
