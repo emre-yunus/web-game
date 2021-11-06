@@ -19,8 +19,8 @@ export function ProductionPanelContent(props) {
     const {capitalAmount, setCapitalAmount, salesEfficiency, setSpentCapitalAmount} = useCapitalContext();
     const {workerAmount, setWorkerAmount, workerEfficiency, workerActive} = useWorkerContext();
     const {salesPersonAmount, setSalesPersonAmount, salesPersonEfficiency, salesPersonActive} = useSalesPersonContext();
-    const {productionManagerAmount, setProductionManagerAmount, productionManagerEfficiency, productionManagerActive} = useProductionManagerContext();
-    const {salesManagerAmount, setSalesManagerAmount, salesManagerEfficiency, salesManagerActive} = useSalesManagerContext();
+    const {productionManagerAmount, setProductionManagerAmount, productionManagerEfficiency, productionManagerUpgradeBought} = useProductionManagerContext();
+    const {salesManagerAmount, setSalesManagerAmount, salesManagerEfficiency, salesManagerUpgradeBought} = useSalesManagerContext();
     const {productionManagerHiring, setProductionManagerHiring} = useManagerHiringContext();
     const {salesManagerHiring, setSalesManagerHiring} = useManagerHiringContext();
     const {errorMessages, setErrorMessages} = useInfoContext();
@@ -35,29 +35,33 @@ export function ProductionPanelContent(props) {
      */
     useEffect(() => {
         const id = setInterval(() => {
-            console.log("useEffect of ProductionPanelContent.js just ran")
+            console.log("Updating...")
             setBottleAmount(prevBottleAmount => prevBottleAmount + workerAmount);
             if(bottleAmount-(salesPersonEfficiency*salesPersonAmount) >= 0 ) {
                 setBottleAmount(prevBottleAmount => prevBottleAmount - (salesPersonEfficiency * salesPersonAmount));
                 setCapitalAmount(prevCapitalAmount => prevCapitalAmount + (salesPersonEfficiency * salesPersonAmount));
             }
+
+            //Managers automatically hiring
             if(productionManagerHiring) {
-                if(capitalAmount >= WORKER_COST) {
+                if(capitalAmount >= WORKER_COST && productionManagerAmount > 0) {
                     setWorkerAmount(prevWorkerAmount => prevWorkerAmount + (productionManagerAmount * productionManagerEfficiency));
                     setCapitalAmount(prevAmount => prevAmount - WORKER_COST);
                     setSpentCapitalAmount(prevAmount => prevAmount + WORKER_COST);
                 } else {
-                    setErrorMessages(currentArray => currentArray.concat("Production manager can't hire workers - Insufficient CAPITAL!"));
+                    setErrorMessages(currentArray => currentArray.concat(
+                        (productionManagerAmount>0) ? "Production manager can't hire workers - Insufficient CAPITAL!" : "You must hire production managers first!"));
                     setProductionManagerHiring(false);
                 }
             }
             if(salesManagerHiring) {
-                if(capitalAmount >= SALES_PERSON_COST) {
+                if(capitalAmount >= SALES_PERSON_COST && salesManagerAmount > 0) {
                     setSalesPersonAmount(prevSalesPersonAmount => prevSalesPersonAmount + (salesManagerAmount * salesManagerEfficiency));
                     setCapitalAmount(prevAmount => prevAmount - SALES_PERSON_COST);
                     setSpentCapitalAmount(prevAmount => prevAmount + SALES_PERSON_COST);
                 } else {
-                    setErrorMessages(currentArray => currentArray.concat("Sales manager can't hire salespeople - Insufficient CAPITAL!"));
+                    setErrorMessages(currentArray => currentArray.concat(
+                        (salesManagerAmount > 0) ? "Sales manager can't hire salespeople - Insufficient CAPITAL!" : "You must hire sales managers first!"));
                     setSalesManagerHiring(false);
                 }
             }
@@ -114,7 +118,6 @@ export function ProductionPanelContent(props) {
             }
         } else {
             setErrorMessages(currentArray => currentArray.concat("workers unavailable, buy WORKER upgrade first!"));
-            console.log(errorMessages);
         }
     }
 
@@ -135,7 +138,7 @@ export function ProductionPanelContent(props) {
 
     //manually increase productionManagerAmount
     const changeProductionManagerAmount = () => {
-        if(productionManagerActive) {
+        if(productionManagerUpgradeBought) {
             if(capitalAmount >= PRODUCTION_MANAGER_COST) {
                 setProductionManagerAmount(prevProductionManagerAmount => prevProductionManagerAmount + 1)
                 setCapitalAmount(prevAmount => prevAmount - PRODUCTION_MANAGER_COST);
@@ -150,7 +153,7 @@ export function ProductionPanelContent(props) {
 
     //manually increase salesManagerAmount
     const changeSalesManagerAmount = () => {
-        if(salesManagerActive) {
+        if(salesManagerUpgradeBought) {
             if(capitalAmount >= SALES_MANAGER_COST) {
                 setSalesManagerAmount(prevSalesManagerAmount => prevSalesManagerAmount + 1)
                 setCapitalAmount(prevAmount => prevAmount - SALES_MANAGER_COST);

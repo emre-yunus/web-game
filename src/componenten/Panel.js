@@ -9,7 +9,7 @@ export function Panel(props) {
     const {title} = props;
 
     if(title==="INFO") {
-        return <Card sx={{height: 150}} className={"Panel"}>
+        return <Card sx={{height: 200}} className={"Panel"}>
             <CardHeader
                 title={title}
                 sx={{

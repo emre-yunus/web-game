@@ -32,6 +32,6 @@ function JustPrintIt(props) {
         };
     }, [glow])
 
-    if(glow) return <Alert severity="error">{message}</Alert>
+    if(glow) return <Alert variant="outlined" severity="error">{message}</Alert>
     return<></>
 }

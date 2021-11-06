@@ -1,5 +1,5 @@
 import {Stack, Box, Tooltip, Button} from "@mui/material";
-import React, {useState} from "react";
+import React, {forwardRef, useState} from "react";
 import {HtmlTooltip} from "./Tooltips";
 import {useWorkerContext} from "../context/workerContext";
 import {useBottleContext} from "../context/bottleContext";
@@ -15,8 +15,8 @@ export function StatisticsPanelContent(props) {
     const {capitalAmount} = useCapitalContext();
     const {workerAmount, workerEfficiency} = useWorkerContext();
     const {salesPersonAmount, salesPersonEfficiency} = useSalesPersonContext();
-    const {productionManagerAmount, setProductionManagerAmount, productionManagerEfficiency} = useProductionManagerContext();
-    const {salesManagerAmount, setSalesManagerAmount, salesManagerEfficiency} = useSalesManagerContext();
+    const {productionManagerAmount, setProductionManagerAmount, productionManagerEfficiency, productionManagerUpgradeBought} = useProductionManagerContext();
+    const {salesManagerAmount, setSalesManagerAmount, salesManagerEfficiency, salesManagerUpgradeBought} = useSalesManagerContext();
     const {productionManagerHiring, setProductionManagerHiring} = useManagerHiringContext();
     const {salesManagerHiring, setSalesManagerHiring} = useManagerHiringContext();
 
@@ -27,6 +27,22 @@ export function StatisticsPanelContent(props) {
     const changeSalesManagerHiring = () => {
         setSalesManagerHiring(!salesManagerHiring);
     }
+
+    //HIRING BUTTONS
+    const ProductionManagerHiringButton = forwardRef((props, ref) => {
+        if(productionManagerUpgradeBought) {
+            return <Button onClick={changeProductionManagerHiring} variant="contained" size="small">{productionManagerHiring ? "STOP HIRING" : "START HIRING" }</Button>
+        } else {
+            return <Button onClick={changeProductionManagerHiring} variant="contained" size="small" disabled>{productionManagerHiring ? "STOP HIRING" : "START HIRING" }</Button>
+        }
+    })
+    const SalesManagerHiringButton = forwardRef((props, ref) => {
+        if(salesManagerUpgradeBought) {
+            return <Button onClick={changeSalesManagerHiring} color="success" variant="contained" size="small">{salesManagerHiring ? "STOP HIRING" : "START HIRING" }</Button>
+        } else {
+            return <Button onClick={changeSalesManagerHiring} color="success" variant="contained" size="small" disabled>{salesManagerHiring ? "STOP HIRING" : "START HIRING" }</Button>
+        }
+    })
 
     return <>
         <Stack mb={5} p={2} spacing={6} direction={"row"} justifyContent={"center"}>
@@ -74,7 +90,7 @@ export function StatisticsPanelContent(props) {
                 <Box className={"box"}>
                     <div className={"boxTitle"}>PRODUCTION MANAGERS</div>
                     <div className={"boxText"}>{productionManagerAmount}</div>
-                    <Button onClick={changeProductionManagerHiring} variant="contained" size="small">{productionManagerHiring ? "STOP HIRING" : "START HIRING" }</Button>
+                    <ProductionManagerHiringButton/>
                 </Box>
             </HtmlTooltip>
 
@@ -85,7 +101,7 @@ export function StatisticsPanelContent(props) {
                 <Box className={"box"}>
                     <div className={"boxTitle"}>SALES MANAGERS</div>
                     <div className={"boxText"}>{salesManagerAmount}</div>
-                    <Button onClick={changeSalesManagerHiring} color="success" variant="contained" size="small">{salesManagerHiring ? "STOP HIRING" : "START HIRING" }</Button>
+                    <SalesManagerHiringButton/>
                 </Box>
             </HtmlTooltip>
         </Stack>

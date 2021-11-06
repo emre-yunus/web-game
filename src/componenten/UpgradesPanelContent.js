@@ -14,8 +14,8 @@ export function UpgradesPanelContent(props) {
     const {capitalAmount, setCapitalAmount, salesEfficiency, spentCapitalAmount, setSpentCapitalAmount} = useCapitalContext();
     const {workerEfficiency, workerActive, setWorkerActive} = useWorkerContext();
     const {salesPersonEfficiency, salesPersonActive, setSalesPersonActive} = useSalesPersonContext();
-    const {productionManagerEfficiency, productionManagerActive, setProductionManagerActive} = useProductionManagerContext();
-    const {salesManagerEfficiency, salesManagerActive, setSalesManagerActive} = useSalesManagerContext();
+    const {productionManagerEfficiency, productionManagerUpgradeBought, setProductionManagerUpgradeBought} = useProductionManagerContext();
+    const {salesManagerEfficiency, salesManagerUpgradeBought, setSalesManagerUpgradeBought} = useSalesManagerContext();
     const {errorMessages, setErrorMessages} = useInfoContext();
 
     const WORKER_UPGRADE_COST = 20;
@@ -44,7 +44,7 @@ export function UpgradesPanelContent(props) {
     }
     const buyProductionManagerUpgrade = () => {
         if(capitalAmount >= PRODUCTION_MANAGER_UPGRADE_COST) {
-            setProductionManagerActive(true);
+            setProductionManagerUpgradeBought(true);
             setCapitalAmount(prevAmount => prevAmount - PRODUCTION_MANAGER_UPGRADE_COST);
             setSpentCapitalAmount(prevAmount => prevAmount + PRODUCTION_MANAGER_UPGRADE_COST);
         } else {
@@ -54,7 +54,7 @@ export function UpgradesPanelContent(props) {
     }
     const buySalesManagerUpgrade = () => {
         if(capitalAmount >= SALES_MANAGER_UPGRADE_COST) {
-            setSalesManagerActive(true);
+            setSalesManagerUpgradeBought(true);
             setCapitalAmount(prevAmount => prevAmount - SALES_MANAGER_UPGRADE_COST);
             setSpentCapitalAmount(prevAmount => prevAmount + SALES_MANAGER_UPGRADE_COST);
         } else {
@@ -74,15 +74,9 @@ export function UpgradesPanelContent(props) {
                 </Button>
             </HtmlTooltip>
         }
-        return <HtmlTooltip title={<>
-            <h5>COST: ${WORKER_UPGRADE_COST}</h5>
-            <div>Workers produce {workerEfficiency} bottle(s) per second</div>
-        </>
-        } followCursor>
-            <Button onClick={buyWorkerUpgrade} variant={"contained"} startIcon={<AccessibilityNewIcon sx={{fontSize: 50}}/>} disabled>
+        return <Button onClick={buyWorkerUpgrade} variant={"contained"} startIcon={<AccessibilityNewIcon sx={{fontSize: 50}}/>} disabled>
                 WORKER
             </Button>
-        </HtmlTooltip>
     })
 
     const SalesPersonUpgradeButton = forwardRef((props, ref) => {
@@ -97,19 +91,13 @@ export function UpgradesPanelContent(props) {
                 </Button>
             </HtmlTooltip>
         }
-        return <HtmlTooltip title={<>
-            <h5>COST: ${SALESPERSON_UPGRADE_COST}</h5>
-            <div>Sales people sell {salesEfficiency} bottle(s) per second</div>
-        </>
-        } followCursor>
-            <Button onClick={buySalesPersonUpgrade} color="success" variant={"contained"} startIcon={<AccessibilityNewIcon sx={{fontSize: 50}}/>} disabled>
+        return <Button onClick={buySalesPersonUpgrade} color="success" variant={"contained"} startIcon={<AccessibilityNewIcon sx={{fontSize: 50}}/>} disabled>
                 SALESPERSON
             </Button>
-        </HtmlTooltip>
     })
 
     const ProductionManagerUpgradeButton = forwardRef((props, ref) => {
-        if(!productionManagerActive) {
+        if(!productionManagerUpgradeBought) {
             return <HtmlTooltip title={<>
                 <h5>COST: ${PRODUCTION_MANAGER_UPGRADE_COST}</h5>
                 <div>A production manager hires {productionManagerEfficiency} worker(s) per second</div>
@@ -120,19 +108,13 @@ export function UpgradesPanelContent(props) {
                 </Button>
             </HtmlTooltip>
         }
-        return <HtmlTooltip title={<>
-            <h5>COST: ${PRODUCTION_MANAGER_UPGRADE_COST}</h5>
-            <div>A production manager hires {productionManagerEfficiency} worker(s) per second</div>
-        </>
-        } followCursor>
-            <Button onClick={buyProductionManagerUpgrade} variant={"contained"} startIcon={<WorkIcon sx={{fontSize: 50}}/>} disabled>
+        return <Button onClick={buyProductionManagerUpgrade} variant={"contained"} startIcon={<WorkIcon sx={{fontSize: 50}}/>} disabled>
                 PRODUCTION MANAGER
             </Button>
-        </HtmlTooltip>
     })
 
     const SalesManagerUpgradeButton = forwardRef((props, ref) => {
-        if(!salesManagerActive) {
+        if(!salesManagerUpgradeBought) {
             return <HtmlTooltip title={<>
                 <h5>COST: ${SALES_MANAGER_UPGRADE_COST}</h5>
                 <div>A sales managers hires {salesManagerEfficiency} salespeople/salesperson per second</div>
@@ -143,15 +125,9 @@ export function UpgradesPanelContent(props) {
                 </Button>
             </HtmlTooltip>
         }
-        return <HtmlTooltip title={<>
-            <h5>COST: ${SALES_MANAGER_UPGRADE_COST}</h5>
-            <div>A sales managers hires {salesManagerEfficiency} salespeople/salesperson per second</div>
-        </>
-        } followCursor>
-            <Button onClick={buySalesManagerUpgrade} color="success" variant={"contained"} startIcon={<WorkIcon sx={{fontSize: 50}}/>} disabled>
+        return <Button onClick={buySalesManagerUpgrade} color="success" variant={"contained"} startIcon={<WorkIcon sx={{fontSize: 50}}/>} disabled>
                 SALES MANAGER
             </Button>
-        </HtmlTooltip>
     })
 
     return <>

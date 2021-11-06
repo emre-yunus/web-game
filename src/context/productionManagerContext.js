@@ -11,18 +11,18 @@ export function ProductionManagerProvider(props) {
         const savedProductionManagerEfficiency = JSON.parse(localStorage.getItem("productionManagerEfficiency"));
         return savedProductionManagerEfficiency || 1;
     });
-    const [productionManagerActive, setProductionManagerActive] = useState(() => {
-        return JSON.parse(localStorage.getItem("productionManagerActive")) || false;
+    const [productionManagerUpgradeBought, setProductionManagerUpgradeBought] = useState(() => {
+        return JSON.parse(localStorage.getItem("productionManagerUpgradeBought")) || false;
     });
 
     useEffect(() => localStorage.setItem("productionManagerAmount", JSON.stringify(productionManagerAmount)), [productionManagerAmount]);
     useEffect(() => localStorage.setItem("productionManagerEfficiency", JSON.stringify(productionManagerEfficiency)), [productionManagerEfficiency]);
-    useEffect(() => localStorage.setItem("productionManagerActive", JSON.stringify(productionManagerActive)), [productionManagerActive]);
+    useEffect(() => localStorage.setItem("productionManagerUpgradeBought", JSON.stringify(productionManagerUpgradeBought)), [productionManagerUpgradeBought]);
 
     const api = useMemo(() => ({
-        productionManagerAmount, setProductionManagerAmount, productionManagerEfficiency, setProductionManagerEfficiency, productionManagerActive, setProductionManagerActive
+        productionManagerAmount, setProductionManagerAmount, productionManagerEfficiency, setProductionManagerEfficiency, productionManagerUpgradeBought, setProductionManagerUpgradeBought
     }), [
-        productionManagerAmount, setProductionManagerAmount, productionManagerEfficiency, setProductionManagerEfficiency, productionManagerActive, setProductionManagerActive
+        productionManagerAmount, setProductionManagerAmount, productionManagerEfficiency, setProductionManagerEfficiency, productionManagerUpgradeBought, setProductionManagerUpgradeBought
     ]);
 
     return <ProductionManagerContext.Provider value={api}>
