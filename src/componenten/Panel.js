@@ -8,6 +8,17 @@ import {useState} from "react";
 export function Panel(props) {
     const {title} = props;
 
+    if(title==="INFO") {
+        return <Card sx={{height: 150}} className={"Panel"}>
+            <CardHeader
+                title={title}
+                sx={{
+                    backgroundColor: "rgba(75,75,212,0.85)"
+                }}
+            />
+            <PanelContent title={title}/>
+        </Card>
+    }
     return <Card className={"Panel"}>
         <CardHeader
             title={title}

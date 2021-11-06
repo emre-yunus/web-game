@@ -9,16 +9,20 @@ export function SalesPersonProvider(props) {
     });
     const [salesPersonEfficiency, setSalesPersonEfficiency] = useState(() => {
         const savedSalesPersonEfficiency = JSON.parse(localStorage.getItem("salesPersonEfficiency"));
-        return savedSalesPersonEfficiency ||1;
+        return savedSalesPersonEfficiency || 1;
+    });
+    const [salesPersonActive, setSalesPersonActive] = useState(() => {
+        return JSON.parse(localStorage.getItem("salesPersonActive")) || false;
     });
 
     useEffect(() => localStorage.setItem("salesPersonAmount", JSON.stringify(salesPersonAmount)), [salesPersonAmount]);
     useEffect(() => localStorage.setItem("salesPersonEfficiency", JSON.stringify(salesPersonEfficiency)), [salesPersonEfficiency]);
+    useEffect(() => localStorage.setItem("salesPersonActive", JSON.stringify(salesPersonActive)), [salesPersonActive]);
 
     const api = useMemo(() => ({
-        salesPersonAmount, setSalesPersonAmount, salesPersonEfficiency, setSalesPersonEfficiency
+        salesPersonAmount, setSalesPersonAmount, salesPersonEfficiency, setSalesPersonEfficiency, salesPersonActive, setSalesPersonActive
     }), [
-        salesPersonAmount, setSalesPersonAmount, salesPersonEfficiency, setSalesPersonEfficiency
+        salesPersonAmount, setSalesPersonAmount, salesPersonEfficiency, setSalesPersonEfficiency, salesPersonActive, setSalesPersonActive
     ]);
 
     return <SalesPersonContext.Provider value={api}>

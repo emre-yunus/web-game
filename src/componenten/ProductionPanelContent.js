@@ -8,6 +8,7 @@ import {useSalesPersonContext} from "../context/salesPersonContext";
 import {useProductionManagerContext} from "../context/productionManagerContext";
 import {useSalesManagerContext} from "../context/salesManagerContext";
 import {useManagerHiringContext} from "../context/managerHiringContext";
+import {useInfoContext} from "../context/infoContext";
 
 export function ProductionPanelContent(props) {
     //states belonging to this component
@@ -16,12 +17,13 @@ export function ProductionPanelContent(props) {
     //states from context components
     const {bottleAmount, setBottleAmount, productionEfficiency} = useBottleContext();
     const {capitalAmount, setCapitalAmount, salesEfficiency} = useCapitalContext();
-    const {workerAmount, setWorkerAmount, workerEfficiency} = useWorkerContext();
-    const {salesPersonAmount, setSalesPersonAmount, salesPersonEfficiency} = useSalesPersonContext();
-    const {productionManagerAmount, setProductionManagerAmount, productionManagerEfficiency} = useProductionManagerContext();
-    const {salesManagerAmount, setSalesManagerAmount, salesManagerEfficiency} = useSalesManagerContext();
+    const {workerAmount, setWorkerAmount, workerEfficiency, workerActive} = useWorkerContext();
+    const {salesPersonAmount, setSalesPersonAmount, salesPersonEfficiency, salesPersonActive} = useSalesPersonContext();
+    const {productionManagerAmount, setProductionManagerAmount, productionManagerEfficiency, productionManagerActive} = useProductionManagerContext();
+    const {salesManagerAmount, setSalesManagerAmount, salesManagerEfficiency, salesManagerActive} = useSalesManagerContext();
     const {productionManagerHiring, setProductionManagerHiring} = useManagerHiringContext();
     const {salesManagerHiring, setSalesManagerHiring} = useManagerHiringContext();
+    const {errorMessages, setErrorMessages} = useInfoContext();
 
     /**
      * UseEffect contains setInterval --> this loops every 1000 milliseconds
@@ -76,20 +78,38 @@ export function ProductionPanelContent(props) {
 
     //manually increase workerAmount with "hire worker" button
     const changeWorkerAmount = () => {
-        setWorkerAmount(prevWorkerAmount => prevWorkerAmount + 1);
+        if(workerActive) {
+            setWorkerAmount(prevWorkerAmount => prevWorkerAmount + 1)
+        } else {
+            setErrorMessages(currentArray => currentArray.concat("workers unavailable, buy WORKER upgrade first!"));
+            console.log(errorMessages);
+        };
     }
 
     //manually increase salesPersonAmount with "hire salesperson" button
     const changeSalesPersonAmount = () => {
-        setSalesPersonAmount(prevSalesPersonAmount => prevSalesPersonAmount + 1);
+        if(salesPersonActive) {
+            setSalesPersonAmount(prevSalesPersonAmount => prevSalesPersonAmount + 1);
+        } else {
+            setErrorMessages(currentArray => currentArray.concat("salespeople unavailable, buy SALESPERSON upgrade first!"));
+        }
+
     }
 
     const changeProductionManagerAmount = () => {
-        setProductionManagerAmount(prevProductionManagerAmount => prevProductionManagerAmount + 1)
+        if(productionManagerActive) {
+            setProductionManagerAmount(prevProductionManagerAmount => prevProductionManagerAmount + 1)
+        } else {
+            setErrorMessages(currentArray => currentArray.concat("You haven't bought the PRODUCTION MANAGER upgrade yet!"));
+        }
     }
 
     const changeSalesManagerAmount = () => {
-        setSalesManagerAmount(prevSalesManagerAmount => prevSalesManagerAmount + 1)
+        if(salesManagerActive) {
+            setSalesManagerAmount(prevSalesManagerAmount => prevSalesManagerAmount + 1)
+        } else {
+            setErrorMessages(currentArray => currentArray.concat("You haven't bought the SALES MANAGER upgrade yet!"))
+        }
     }
 
     return <>

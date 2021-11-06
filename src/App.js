@@ -11,6 +11,7 @@ import {ProductionManagerProvider} from "./context/productionManagerContext";
 import {SalesManagerProvider} from "./context/salesManagerContext";
 import {ManagerHiringProvider} from "./context/managerHiringContext";
 import {LeaderBoardAccordion} from "./componenten/LeaderBoardAccordion";
+import {InfoProvider} from "./context/infoContext";
 
 function ProvidedApp() {
     return <div className="App">
@@ -28,7 +29,9 @@ function App() {
                       <ProductionManagerProvider>
                           <SalesManagerProvider>
                               <ManagerHiringProvider>
-                                  <ProvidedApp/>
+                                  <InfoProvider>
+                                    <ProvidedApp/>
+                                  </InfoProvider>
                               </ManagerHiringProvider>
                           </SalesManagerProvider>
                       </ProductionManagerProvider>

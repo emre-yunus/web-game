@@ -11,14 +11,18 @@ export function SalesManagerProvider(props) {
         const savedSalesManagerEfficiency = JSON.parse(localStorage.getItem("salesManagerEfficiency"));
         return savedSalesManagerEfficiency || 1;
     });
+    const [salesManagerActive, setSalesManagerActive] = useState(() => {
+        return JSON.parse(localStorage.getItem("salesManagerActive")) || false;
+    });
 
     useEffect(() => localStorage.setItem("salesManagerAmount", JSON.stringify(salesManagerAmount)), [salesManagerAmount]);
     useEffect(() => localStorage.setItem("salesManagerEfficiency", JSON.stringify(salesManagerEfficiency)), [salesManagerEfficiency]);
+    useEffect(() => localStorage.setItem("salesManagerActive", JSON.stringify(salesManagerActive)), [salesManagerActive]);
 
     const api = useMemo(() => ({
-        salesManagerAmount, setSalesManagerAmount, salesManagerEfficiency, setSalesManagerEfficiency
+        salesManagerAmount, setSalesManagerAmount, salesManagerEfficiency, setSalesManagerEfficiency, salesManagerActive, setSalesManagerActive
     }), [
-        salesManagerAmount, setSalesManagerAmount, salesManagerEfficiency, setSalesManagerEfficiency
+        salesManagerAmount, setSalesManagerAmount, salesManagerEfficiency, setSalesManagerEfficiency, salesManagerActive, setSalesManagerActive
     ]);
 
     return <SalesManagerContext.Provider value={api}>
