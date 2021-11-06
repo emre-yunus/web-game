@@ -1,104 +1,50 @@
 import {Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow} from "@mui/material";
-import {useState} from "react";
+import {useEffect, useState} from "react";
+import {getCollectionFromDb} from "../services/firestoreCollection";
+
+const COLLECTION_USERS = "users";
 
 export function LeaderBoardContent(props) {
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
+    const [usersFromDb, setUsersFromDb] = useState([]);
+
+    const loadUsers = async () => {
+        const users = await getCollectionFromDb(COLLECTION_USERS);
+        setUsersFromDb(users);
+    }
+
+    useEffect(() => loadUsers(), []);
+
+    //console.log(usersFromDb);
+
+    //usersFromDb.map(u => (console.log(u)));
 
     const columns = [
         { id: 'name', label: 'Name', minWidth: 170 },
         { id: 'bottleAmount',
             label: 'Bottles',
             minWidth: 170,
-            format: (value => value.toLocaleString('nl-BE')),
+            format: (value => value.toLocaleString('en-US')),
         },
         {
-            id: 'capitalAmount',
+            id: 'totalCapital',
             label: 'Total Capital (current + spent)',
             minWidth: 170,
-            format: (value) => value.toLocaleString('nl-BE'),
+            format: (value) => value.toLocaleString('en-US'),
         },
         {
             id: 'score',
             label: 'Score (bottles + total capital)',
             minWidth: 170,
-            format: (value) => value.toLocaleString('nl-BE'),
+            format: (value) => value.toLocaleString('en-US'),
         },
     ];
-
-    //TODO: Take data from database and put name, bottleAmount, totalCapitalAmount (--> is current capital and
-    // capital spent) in rows
-    // AND SORT BY SCORE! (--> maybe give id and use id as key)
-    function createData(name, bottleAmount, capitalAmount) {
-        const score = bottleAmount + capitalAmount;
-        return {name, bottleAmount, capitalAmount, score};
-    }
-    const rows = [
-        createData('Emre', 5560, 1354),
-        createData('Ahmet', 452, 500365),
-        createData('Mehmet', 0, 3973),
-        createData('Mehmet', 0, 3973),
-        createData('Mehmet', 0, 3973),
-        createData('Mehmet', 0, 3973),
-        createData('Mehmet', 0, 3973),
-        createData('Mehmet', 0, 3973),
-        createData('Mehmet', 0, 3973),
-        createData('Mehmet', 0, 3973),
-        createData('Mehmet', 0, 3973),
-        createData('Mehmet', 0, 3973),
-        createData('Mehmet', 0, 3973),
-        createData('Mehmet', 0, 3973),
-        createData('Mehmet', 0, 3973),
-        createData('Mehmet', 0, 3973),
-        createData('Mehmet', 0, 3973),
-        createData('Mehmet', 0, 3973),
-        createData('Mehmet', 0, 3973),
-        createData('Mehmet', 0, 3973),
-        createData('Mehmet', 0, 3973),
-        createData('Mehmet', 0, 3973),
-        createData('Mehmet', 0, 3973),
-        createData('Mehmet', 0, 3973),
-        createData('Mehmet', 0, 3973),
-        createData('Mehmet', 0, 3973),
-        createData('Mehmet', 0, 3973),
-        createData('Mehmet', 0, 3973),
-        createData('Mehmet', 0, 3973),
-        createData('Mehmet', 0, 3973),
-        createData('Mehmet', 0, 3973),
-        createData('Mehmet', 0, 3973),
-        createData('Mehmet', 0, 3973),
-        createData('Mehmet', 0, 3973),
-        createData('Mehmet', 0, 3973),
-        createData('Mehmet', 0, 3973),
-        createData('Mehmet', 0, 3973),
-        createData('Mehmet', 0, 3973),
-        createData('Mehmet', 0, 3973),
-        createData('Mehmet', 0, 3973),
-        createData('Mehmet', 0, 3973),
-        createData('Mehmet', 0, 3973),
-        createData('Mehmet', 0, 3973),
-        createData('Mehmet', 0, 3973),
-        createData('Mehmet', 0, 3973),
-        createData('Mehmet', 0, 3973),
-        createData('Mehmet', 0, 3973),
-        createData('Mehmet', 0, 3973),
-        createData('Mehmet', 0, 3973),
-        createData('Mehmet', 0, 3973),
-        createData('Mehmet', 0, 3973),
-        createData('Mehmet', 0, 3973),
-        createData('Mehmet', 0, 3973),
-        createData('Mehmet', 0, 3973),
-        createData('Mehmet', 0, 3973),
-        createData('Mehmet', 0, 3973),
-        createData('Mehmet', 0, 3973),
-        createData('Mehmet', 0, 3973),
-        createData('Mehmet', 0, 3973),
-        createData('Mehmet', 0, 3973),
-        createData('Mehmet', 0, 3973),
-        createData('Mehmet', 0, 3973),
-        createData('Mehmet', 0, 3973),
-        createData('Mehmet', 0, 3973),
-    ];
+    //TODO: explain this:
+    const rows = usersFromDb.map((u, i) => ({
+        ...u,
+        score: u.bottleAmount + u.totalCapital
+    })).sort((a, b) => parseFloat(b.score) - parseFloat(a.score));
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -136,9 +82,9 @@ export function LeaderBoardContent(props) {
                 <TableBody>
                     {rows
                         .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                        .map((row) => {
+                        .map((row, key) => {
                             return (
-                                <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
+                                <TableRow hover role="checkbox" tabIndex={-1} key={key}>
                                     {columns.map((column) => {
                                         const value = row[column.id];
                                         return (

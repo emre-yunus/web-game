@@ -29,14 +29,14 @@ export function StatisticsPanelContent(props) {
     }
 
     return <>
-        <Stack mb={5} p={2} spacing={8} direction={"row"} justifyContent={"center"}>
+        <Stack mb={5} p={2} spacing={6} direction={"row"} justifyContent={"center"}>
             <Box>
                 <div className={"statTitle"}>WATER BOTTLES</div>
-                <div className={"statText"}>{bottleAmount}</div>
+                <div className={"statText"}>{bottleAmount.toLocaleString("en-US")}</div>
             </Box>
             <Box>
                 <div className={"statTitle"}>CAPITAL</div>
-                <div className={"statText"}>$ {capitalAmount}</div>
+                <div className={"statText"}>$ {capitalAmount.toLocaleString("en-US")}</div>
             </Box>
         </Stack>
 

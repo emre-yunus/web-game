@@ -1,6 +1,7 @@
 import 'normalize.css';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import "./services/firestore"
 import {Dashboard} from "./componenten/Dashboard";
 import {WorkerProvider} from "./context/workerContext";
 import {BottleProvider} from "./context/bottleContext";
@@ -10,7 +11,6 @@ import {ProductionManagerProvider} from "./context/productionManagerContext";
 import {SalesManagerProvider} from "./context/salesManagerContext";
 import {ManagerHiringProvider} from "./context/managerHiringContext";
 import {LeaderBoardAccordion} from "./componenten/LeaderBoardAccordion";
-import {Stack} from "@mui/material";
 
 function ProvidedApp() {
     return <div className="App">
