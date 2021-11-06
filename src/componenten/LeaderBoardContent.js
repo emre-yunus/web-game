@@ -40,7 +40,8 @@ export function LeaderBoardContent(props) {
             format: (value) => value.toLocaleString('en-US'),
         },
     ];
-    //TODO: explain this:
+
+    // userFromDb adds score value to every user, then the array gets sorted by score (descending) --> leaderboard now puts best player on top
     const rows = usersFromDb.map((u, i) => ({
         ...u,
         score: u.bottleAmount + u.totalCapital
