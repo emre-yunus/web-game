@@ -96,6 +96,7 @@ export function ProductionPanelContent(props) {
 
     }
 
+    //manually increase productionManagerAmount
     const changeProductionManagerAmount = () => {
         if(productionManagerActive) {
             setProductionManagerAmount(prevProductionManagerAmount => prevProductionManagerAmount + 1)
@@ -104,6 +105,7 @@ export function ProductionPanelContent(props) {
         }
     }
 
+    //manually increase salesManagerAmount
     const changeSalesManagerAmount = () => {
         if(salesManagerActive) {
             setSalesManagerAmount(prevSalesManagerAmount => prevSalesManagerAmount + 1)

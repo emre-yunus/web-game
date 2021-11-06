@@ -26,7 +26,7 @@ function JustPrintIt(props) {
     const [glow, setGlow] = useState(true);
 
     useEffect(() => {
-        let timer1 = setTimeout(() => setGlow(false), 3000);
+        let timer1 = setTimeout(() => setGlow(false), 2000);
         return () => {
             clearTimeout(timer1);
         };
