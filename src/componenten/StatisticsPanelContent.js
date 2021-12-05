@@ -8,6 +8,7 @@ import {useSalesPersonContext} from "../context/salesPersonContext";
 import {useProductionManagerContext} from "../context/productionManagerContext";
 import {useSalesManagerContext} from "../context/salesManagerContext";
 import {useManagerHiringContext} from "../context/managerHiringContext";
+import {ChooseCountry} from "./ChooseCountry";
 
 export function StatisticsPanelContent(props) {
 
@@ -19,6 +20,9 @@ export function StatisticsPanelContent(props) {
     const {salesManagerAmount, setSalesManagerAmount, salesManagerEfficiency, salesManagerUpgradeBought} = useSalesManagerContext();
     const {productionManagerHiring, setProductionManagerHiring} = useManagerHiringContext();
     const {salesManagerHiring, setSalesManagerHiring} = useManagerHiringContext();
+
+    const [country, setCountry] = useState("United States");
+    const [currencySymbol, setCurrencySymbol] = useState("");
 
     const changeProductionManagerHiring = () => {
         setProductionManagerHiring(!productionManagerHiring);
@@ -45,6 +49,10 @@ export function StatisticsPanelContent(props) {
     })
 
     return <>
+        <Stack m={2} direction={"row"} justifyContent={"center"}>
+            <ChooseCountry country={country} setCountry={setCountry} setCurrencySymbol={setCurrencySymbol}/>
+        </Stack>
+
         <Stack mb={5} p={2} spacing={6} direction={"row"} justifyContent={"center"}>
             <Box>
                 <div className={"statTitle"}>WATER BOTTLES</div>
@@ -52,7 +60,7 @@ export function StatisticsPanelContent(props) {
             </Box>
             <Box>
                 <div className={"statTitle"}>CAPITAL</div>
-                <div className={"statText"}>$ {capitalAmount.toLocaleString("en-US")}</div>
+                <div className={"statText"}>{currencySymbol} {capitalAmount.toLocaleString("en-US")}</div>
             </Box>
         </Stack>
 
