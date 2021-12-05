@@ -4,13 +4,14 @@ const CurrencyContext = createContext();
 
 export function CurrencyProvider(props) {
     const [currencySymbol, setCurrencySymbol] = useState("");
+    const [country, setCountry] = useState("United States");
 
     const api = useMemo(
         () => ({
-            currencySymbol, setCurrencySymbol
+            currencySymbol, setCurrencySymbol, country, setCountry
         }),
         [
-            currencySymbol, setCurrencySymbol
+            currencySymbol, setCurrencySymbol, country, setCountry
         ]
     );
 

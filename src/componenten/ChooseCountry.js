@@ -8,8 +8,7 @@ import {useMemo, useState} from "react";
 import {useCurrencyContext} from "../context/currencyContext";
 
 export function ChooseCountry(props) {
-    const {country, setCountry} = props;
-    const {setCurrencySymbol} = useCurrencyContext();
+    const {setCurrencySymbol, country, setCountry} = useCurrencyContext();
 
     useMemo(async () => {
         const symbol = await fetchCurrencyByCountry(country);

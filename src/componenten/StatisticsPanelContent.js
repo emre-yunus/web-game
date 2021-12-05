@@ -22,8 +22,7 @@ export function StatisticsPanelContent(props) {
     const {productionManagerHiring, setProductionManagerHiring} = useManagerHiringContext();
     const {salesManagerHiring, setSalesManagerHiring} = useManagerHiringContext();
 
-    const [country, setCountry] = useState("United States");
-    const {currencySymbol, setCurrencySymbol} = useCurrencyContext();
+    const {currencySymbol, setCurrencySymbol, country, setCountry} = useCurrencyContext();
 
 
     const changeProductionManagerHiring = () => {
