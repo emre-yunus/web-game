@@ -6,7 +6,7 @@ import Select from '@mui/material/Select';
 import {useCurrencyContext} from "../context/currencyContext";
 
 export function ChooseCountry(props) {
-    const {country, setCountry} = useCurrencyContext();
+    const {country, setCountry, allCountries} = useCurrencyContext();
 
     const handleChange = (event) => {
         setCountry(event.target.value);
