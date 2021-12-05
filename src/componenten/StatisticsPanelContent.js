@@ -9,6 +9,7 @@ import {useProductionManagerContext} from "../context/productionManagerContext";
 import {useSalesManagerContext} from "../context/salesManagerContext";
 import {useManagerHiringContext} from "../context/managerHiringContext";
 import {ChooseCountry} from "./ChooseCountry";
+import {useCurrencyContext} from "../context/currencyContext";
 
 export function StatisticsPanelContent(props) {
 
@@ -22,7 +23,8 @@ export function StatisticsPanelContent(props) {
     const {salesManagerHiring, setSalesManagerHiring} = useManagerHiringContext();
 
     const [country, setCountry] = useState("United States");
-    const [currencySymbol, setCurrencySymbol] = useState("");
+    const {currencySymbol, setCurrencySymbol} = useCurrencyContext();
+
 
     const changeProductionManagerHiring = () => {
         setProductionManagerHiring(!productionManagerHiring);

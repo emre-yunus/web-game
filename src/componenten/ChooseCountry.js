@@ -4,11 +4,12 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import {fetchCurrencyByCountry} from "../utilities/fetch";
-import {useCallback, useMemo} from "react";
+import {useMemo, useState} from "react";
+import {useCurrencyContext} from "../context/currencyContext";
 
 export function ChooseCountry(props) {
     const {country, setCountry} = props;
-    const {setCurrencySymbol} = props;
+    const {setCurrencySymbol} = useCurrencyContext();
 
     useMemo(async () => {
         const symbol = await fetchCurrencyByCountry(country);

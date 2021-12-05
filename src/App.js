@@ -12,6 +12,7 @@ import {SalesManagerProvider} from "./context/salesManagerContext";
 import {ManagerHiringProvider} from "./context/managerHiringContext";
 import {LeaderBoardAccordion} from "./componenten/LeaderBoardAccordion";
 import {InfoProvider} from "./context/infoContext";
+import {CurrencyProvider} from "./context/currencyContext";
 
 function ProvidedApp() {
     return <div className="App">
@@ -30,7 +31,9 @@ function App() {
                           <SalesManagerProvider>
                               <ManagerHiringProvider>
                                   <InfoProvider>
-                                    <ProvidedApp/>
+                                      <CurrencyProvider>
+                                          <ProvidedApp/>
+                                      </CurrencyProvider>
                                   </InfoProvider>
                               </ManagerHiringProvider>
                           </SalesManagerProvider>
