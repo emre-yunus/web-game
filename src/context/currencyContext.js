@@ -8,7 +8,6 @@ export function CurrencyProvider(props) {
     const [currencySymbol, setCurrencySymbol] = useState("");
     const [allCountries, setAllCountries] = useState([]);
     const [country, setCountry] = useState("United States");
-    const [value, setValue] = useState();
 
     useMemo(async () => {
         const symbol = await fetchCurrencyByCountry(country);
@@ -16,13 +15,16 @@ export function CurrencyProvider(props) {
         console.log(symbol);
     }, [country]);
 
-    useEffect(async () => {
-        const allCountries = await fetchAllCountries();
-        setAllCountries((prevState) => {
-            return {...prevState, ...allCountries}
-        });
-        console.log(`All countries`, allCountries.countries);
-    }, [value]);
+    useEffect(() => {
+        const f = async () => {
+            const allCountries = await fetchAllCountries();
+            setAllCountries((prevState) => {
+                return {...prevState, ...allCountries}
+            });
+            console.log(`All countries`, allCountries.countries);
+        }
+        f();
+    }, []);
 
     const api = useMemo(
         () => ({

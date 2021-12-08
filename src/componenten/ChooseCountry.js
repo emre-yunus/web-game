@@ -8,10 +8,19 @@ import {useCurrencyContext} from "../context/currencyContext";
 export function ChooseCountry(props) {
     const {country, setCountry, allCountries} = useCurrencyContext();
 
+    console.log("all countries.......")
+    console.log(allCountries)
+    console.log("current country.....")
+    console.log(country)
+
     const handleChange = (event) => {
+        console.log(event.target.value);
         setCountry(event.target.value);
     };
 
+    const landen = ["United States", "Belgium", "Japan"];
+
+    if(allCountries.length == 0) {return null;}
     return <>
         <FormControl fullWidth>
             <InputLabel>Country</InputLabel>
@@ -20,10 +29,7 @@ export function ChooseCountry(props) {
                 label="Country"
                 onChange={handleChange}
             >
-                <MenuItem value={"United States"}>United States</MenuItem>
-                <MenuItem value={"Belgium"}>Belgium</MenuItem>
-                <MenuItem value={"Japan"}>Japan</MenuItem>
-                <MenuItem value={"Turkey"}>Turkey</MenuItem>
+                {allCountries.countries.map((country) => <MenuItem value={country}>{country}</MenuItem>)}
             </Select>
         </FormControl>
     </>
